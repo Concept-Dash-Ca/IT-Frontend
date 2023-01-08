@@ -1,4 +1,4 @@
-export const HOST = 'https://it-api.conceptdash.ca/'
+export const HOST = 'https://it-api.conceptdash.ca'
 // export const HOST = 'http://localhost:8080'
 
 //get
