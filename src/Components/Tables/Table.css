@@ -1,0 +1,6 @@
+tr:nth-child(even){
+    background-color: rgba(23, 173, 134, 0.18)
+}
+.heading{
+    background-color: rgba(45, 167, 135, 0.47);
+}
