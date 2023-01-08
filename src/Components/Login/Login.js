@@ -49,8 +49,8 @@ const Login = () => {
             localStorage.setItem('emailWork',res.data.user.emailWork)
             localStorage.setItem('employeeId',res.data.user.employeeId)
             switch (res.data.user.department) {
-              case 'Admin':
-                navigate('/admin')
+              case 'Team':
+                navigate('/dashboard1')
                 break;
               case 'Engineer':
                 navigate('/engineers')

@@ -56,7 +56,6 @@ const TestDemo = () => {
   let doChange = (e) => {
       getValue(Array.isArray(e) ? e.map((x) => x.value) : []);
     };
-    console.log(DisplayValue);
   const SCOPES =
     "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar";
   const handleClientLoad = () => {
@@ -295,7 +294,7 @@ let offset1 = `${sign}0${hours}:${minutes}`
       <div
         style={{
           width: "55rem",
-          height: "50vh",
+        //   height: "50vh",
           paddingLeft: "1.7rem",
           paddingRight: "1.7rem",
         }}

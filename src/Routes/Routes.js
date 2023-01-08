@@ -7,6 +7,7 @@ import {
 import ProtectedRoutes from './ProtectedRoutes';
 import Login from '../Components/Login/Login';
 import Engineer from '../Components/Engineer/Engineer';
+import Employee from '../Components/Employee/Employee';
 
 const AllRoutes = () => {
     return (
@@ -16,8 +17,9 @@ const AllRoutes = () => {
                     <Route exact path='/' element={<Login />} />
 
                     {/*******************Protected Routes******** */}
-                        <Route exact path='/dashboard' element={<Engineer />} />
                     <Route path='/' element={<ProtectedRoutes />} >
+                        <Route exact path='/dashboard' element={<Engineer />} />
+                        <Route exact path='/dashboard1' element={<Employee />} />
                     </Route>
                 </Routes>
             </Router>

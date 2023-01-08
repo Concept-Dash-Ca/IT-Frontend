@@ -1,37 +1,72 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
-import ProjectIcon from "../../Images/project-icon.png";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
 import Modal from "react-bootstrap/Modal";
 import AddTask from "../Forms/AddTask";
-import { HOST, COUNT_PROJECTS, COUNT_EMPLOYEES } from "../Constants/Constants";
+import Chart from "chart.js/auto";
+import {
+  HOST,
+  TASKS_COUNT,
+  PROJECTS_COUNT,
+  WEEKLY_ANALYSIS,
+} from "../Constants/Constants";
 import TestDemo from "../Calendar/Calendar";
+import { Pie } from "react-chartjs-2";
 
 function Dashboard() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [projectCount, setprojectCount] = useState(0);
-  const [employeesCount, setemployeesCount] = useState(0);
+  const [tasks, settasks] = useState([]);
+  const [projects, setprojects] = useState([]);
+  const [weekly, setweekly] = useState([]);
+
+  const [upcoming, setupcoming] = useState(0);
+  const [ongoing, setongoing] = useState(0);
+  const [dead, setdead] = useState(0);
+  const [completed, setcompleted] = useState(0);
   useEffect(() => {
     const call = async () => {
       await axios
-        .get(HOST + COUNT_EMPLOYEES, {
+        .get(HOST + TASKS_COUNT, {
           headers: { auth: "Rose " + localStorage.getItem("auth") },
         })
         .then((res) => {
-          setemployeesCount(res.data.result[0].count);
-          console.log(res.data.result[0].count);
+          settasks(res.data.res);
+          console.log(res.data.res);
         })
         .catch((err) => {
           console.log(err);
         });
       await axios
-        .get(HOST + COUNT_PROJECTS, {
+        .get(HOST + PROJECTS_COUNT, {
           headers: { auth: "Rose " + localStorage.getItem("auth") },
         })
         .then((res) => {
-          setprojectCount(res.data.result[0].count);
+          setupcoming(res.data.res[0].Upcoming);
+          setongoing(res.data.res[0].Ongoing);
+          setdead(res.data.res[0].Dead);
+          setcompleted(res.data.res[0].Completed);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      await axios
+        .get(HOST + WEEKLY_ANALYSIS, {
+          headers: { auth: "Rose " + localStorage.getItem("auth") },
+        })
+        .then((res) => {
+          setweekly(res.data.res);
+          console.log(res.data.res);
         })
         .catch((err) => {
           console.log(err);
@@ -39,61 +74,57 @@ function Dashboard() {
     };
     call();
   }, []);
+  const data = [];
+  const data1 = [];
+  tasks.map((e) => {
+    data.push({
+      name: e.Name,
+      "Tasks Pending": e.Tasks,
+    });
+  });
+  weekly.map((e) => {
+    data1.push({
+      name: e.Name,
+      "Hours Worked": e.Time_Worked / 60,
+    });
+  });
+  const dataCounts = {
+    labels: ["Upcoming", "Ongoing", "Dead", "Completed"],
+    datasets: [
+      {
+        data: [upcoming, ongoing, dead, completed],
+        backgroundColor: ["#9BBFE0", "#E8A09A", "#FBE29F", "#C6D68F"],
+        hoverBackgroundColor: ["#74BBFB", "#74BBFB", "#74BBFB", "#74BBFB"],
+      },
+    ],
+  };
   return (
     <>
+      <Button style={{ float: "right", margin: ".5rem" }} onClick={handleShow}>
+        Assign Task +
+      </Button>
       <div
-        className="row d-flex justify-content-around body-1"
         style={{ marginTop: "2rem" }}
+        className="container-fluid row justify-content-evenly"
       >
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img src={ProjectIcon} className="card-img" alt="New Purchases" />
-          <h5 className="card-title">Total Projects</h5>
-          <p style={{ marginTop: "1rem" }}>
-            <b>{projectCount}</b>
-          </p>
-        </div>
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img
-            src={ProjectIcon}
-            className="card-img"
-            alt="Submitted Purchases"
-          />
-          <h5 className="card-title" align="center">
-            Ongoing Projects
-          </h5>
-          <p style={{ marginTop: "1rem" }}>
-            <b>2</b>
-          </p>
-        </div>
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img
-            src={ProjectIcon}
-            className="card-img"
-            alt="Approved Purchases"
-          />
-          <h5 className="card-title">Employees Count</h5>
-          <p style={{ marginTop: "1rem" }}>
-            <b>{employeesCount}</b>
-          </p>
-        </div>
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img src={ProjectIcon} className="card-img" alt="Closed Purchases" />
-          <h5 className="card-title">Assign Task</h5>
-          <Button style={{ marginTop: "1rem" }} onClick={handleShow}>
-            Assign
-          </Button>
+        <BarChart width={800} height={400} data={data}>
+          <CartesianGrid strokeDasharray="3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Tasks Pending" fill="#74BBFB" />
+        </BarChart>
+        <BarChart width={800} height={400} data={data1}>
+          <CartesianGrid strokeDasharray="3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Hours Worked" fill="#E8A09A" />
+        </BarChart>
+        <div style={{ width: "32rem" }}>
+          <Pie data={dataCounts} />
         </div>
       </div>
       <div
@@ -101,11 +132,11 @@ function Dashboard() {
         style={{
           borderRadius: "1px",
           width: "50%",
-          marginTop:'2rem',
-          marginBottom:'2rem',
+          marginTop: "2rem",
+          marginBottom: "2rem",
           "box-shadow":
             "1px 1px 1px 1px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19)",
-          "backgroundColor":'#ffffff'
+          backgroundColor: "#ffffff",
         }}
       >
         <div style={{ textAlign: "center" }}>{<TestDemo />}</div>
