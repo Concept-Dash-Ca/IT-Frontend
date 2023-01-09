@@ -25,7 +25,7 @@ function Projects() {
   const [projects, setprojects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let d = 0;
-  let limit = 5;
+  let limit = 30;
   const [pages, setpages] = useState(1);
   const [currPage, setcurrPage] = useState(1);
   useEffect(() => {
