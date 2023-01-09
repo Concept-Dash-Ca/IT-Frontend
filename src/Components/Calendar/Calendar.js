@@ -178,7 +178,6 @@ const TestDemo = () => {
   //       console.log(err);
   //     });
   // };
-  console.log(DisplayValue);
   const addEvent = () => {
     function initiate() {
       gapi.client
