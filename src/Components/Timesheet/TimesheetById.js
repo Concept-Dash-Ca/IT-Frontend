@@ -45,7 +45,7 @@ function TimeSheetById() {
     let arr = [];
     list.map((item) => {
       let date = new Date(item.Date);
-      date.setDate(date.getDate()+1)
+      // date.setDate(date.getDate()+1)
       let entryDate = date.toISOString();
       arr.push({
         
