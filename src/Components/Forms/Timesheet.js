@@ -49,13 +49,26 @@ function Timesheet() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    let value1 = new Date(start)
+      let startMonth, startDay;
+      if(value1.getMonth()+1<10) {
+        startMonth=`0${value1.getMonth()+1}`;
+      } else {
+        startMonth = value1.getMonth()+1;
+      }
+      if(value1.getDate()<10) {
+        startDay = `0${value1.getDate()}`;
+      } else {
+        startDay = value1.getDate();
+      }
+      let date = `${value1.getFullYear()}-${startMonth}-${startDay}`
     axios
       .post(
         HOST + ADD_TIMESHEET,
         {
           work: form.project,
           employeeId: localStorage.getItem("employeeId"),
-          date: new Date(start).toISOString(),
+          date: date,
           startTime: `${new Date(start).getHours()}:${new Date(
             start
           ).getMinutes()}:00`,
