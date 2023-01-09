@@ -1,5 +1,5 @@
-export const HOST = 'https://it-api.conceptdash.ca'
-// export const HOST = 'http://localhost:8080'
+// export const HOST = 'https://it-api.conceptdash.ca'
+export const HOST = 'http://localhost:8080'
 
 //get
 export const GET_TIMESHEET = '/api/get/timesheet:id'

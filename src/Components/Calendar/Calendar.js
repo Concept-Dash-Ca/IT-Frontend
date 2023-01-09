@@ -49,7 +49,7 @@ const TestDemo = () => {
   employees.map((e) => {
     attendees.push({
       label: e.Name,
-      value: e.Employee_ID,
+      value: e.Email,
     });
   });
   let [DisplayValue, getValue] = useState();
@@ -149,35 +149,36 @@ const TestDemo = () => {
   }
 
   const calendarID = "primary";
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // setIsSubmit(true);
-    console.log(new Date(start).toISOString());
-    axios
-      .post(
-        HOST + ADD_MEET,
-        {
-          work: form.summary,
-          employeeId: localStorage.getItem("employeeId"),
-          date: new Date(start).toISOString().substring(0, 10),
-          startTime: `${new Date(start).getHours()}:${new Date(
-            start
-          ).getMinutes()}:00`,
-          endTime: `${new Date(end).getHours()}:${new Date(
-            end
-          ).getMinutes()}:00`,
-          comments: form.description,
-          attendees: DisplayValue.join(','),
-        },
-        { headers: { auth: "Rose " + localStorage.getItem("auth") } }
-      )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // setIsSubmit(true);
+  //   console.log(new Date(start).toISOString());
+  //   axios
+  //     .post(
+  //       HOST + ADD_MEET,
+  //       {
+  //         work: form.summary,
+  //         employeeId: localStorage.getItem("employeeId"),
+  //         date: new Date(start).toISOString().substring(0, 10),
+  //         startTime: `${new Date(start).getHours()}:${new Date(
+  //           start
+  //         ).getMinutes()}:00`,
+  //         endTime: `${new Date(end).getHours()}:${new Date(
+  //           end
+  //         ).getMinutes()}:00`,
+  //         comments: form.description,
+  //         attendees: DisplayValue.join(','),
+  //       },
+  //       { headers: { auth: "Rose " + localStorage.getItem("auth") } }
+  //     )
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  console.log(DisplayValue);
   const addEvent = () => {
     function initiate() {
       gapi.client
@@ -216,8 +217,8 @@ const TestDemo = () => {
         })
         .then(
           (response) => {
-            return [true, response];
             console.log(response);
+            return [true, response];
           },
           function (err) {
             console.log(err);
@@ -245,8 +246,9 @@ const TestDemo = () => {
       });
   };
   const callFunc = (e) => {
+    e.preventDefault();
     addEvent();
-    handleSubmit(e);
+    // handleSubmit(e);
   };
   const formatEvents = (list) => {
     return list.map((item) => ({
