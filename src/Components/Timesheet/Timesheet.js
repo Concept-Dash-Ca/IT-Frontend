@@ -64,6 +64,7 @@ function Timesheet() {
     let arr = [];
     list.map((item) => {
       let value1 = new Date(item.Date)
+      console.log(value1);
       let startMonth, startDay;
       if(value1.getMonth()+1<10) {
         startMonth=`0${value1.getMonth()+1}`;
@@ -79,7 +80,7 @@ function Timesheet() {
       console.log(entryDate);
       arr.push({
         
-        title: `${item.Work}`,
+        title: `${item.Work}:${item.Comments}`,
         start: `${entryDate.substring(0, 11)}${item.Start_Time.substring(
           0,
           5
@@ -92,6 +93,13 @@ function Timesheet() {
     });
 
     return arr;
+  };
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedevent, setSelectedevent] = useState(false);
+
+  const handleEventClick = (info) => {
+    setSelectedevent(true);
+    setSelectedEvent(info.event);
   };
   return (
     <>
@@ -113,12 +121,19 @@ function Timesheet() {
       {isLoading?<LoadingSpinner/>:
       <div>
       {selected?
-      <div className="container" style={{padding: '1rem',marginTop:'1rem',marginBottom:'1rem', border:'2px solid black'}}>
-      {/* <Button
-      style={{ marginLeft: "40%", marginBottom: "2vh" }}
-    >
-      Add to TimeSheet
-    </Button> */}
+      <div className="container" style={{padding: '1rem',marginTop:'1rem',marginBottom:'1rem'}}>
+        {selectedEvent && selectedevent && (
+                          <div style={{textAlign:'center', border:'2px solid black', marginLeft:'40%', paddingBottom:'.5rem', width:'20rem'}}>
+                            <p><b>{selectedEvent.title}</b></p>
+                            <p>
+                              Start Time: {selectedEvent.start.toLocaleString()}
+                            </p>
+                            <p>
+                              End Time: {selectedEvent.end.toLocaleString()}
+                            </p>
+                            <Button onClick={()=>setSelectedevent(false)}>Close</Button>
+                          </div>
+                        )}
     <div style={{ width:'80rem'}}>
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}
@@ -127,21 +142,7 @@ function Timesheet() {
       headerToolbar={{
         left: "title",
       }}
-      eventClick={(info) => {
-        var eventObj = info.event;
-
-        alert(
-          "Clicked " +
-            eventObj.title +
-            ".\n" +
-            "Start time " +
-            eventObj.start +
-            ".\n" +
-            "End time " +
-            eventObj.end +
-            ".\n"
-        );
-      }}
+      eventClick={handleEventClick}
     /></div></div>:''}</div>}
     </>
   );

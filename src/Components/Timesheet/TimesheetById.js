@@ -61,7 +61,7 @@ function TimeSheetById() {
       console.log(entryDate);
       arr.push({
         
-        title: `${item.Work}`,
+        title: `${item.Work}:${item.Comments}`,
         start: `${entryDate.substring(0, 11)}${item.Start_Time.substring(
           0,
           5
@@ -75,6 +75,13 @@ function TimeSheetById() {
 
     return arr;
   };
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedevent, setSelectedevent] = useState(false);
+
+  const handleEventClick = (info) => {
+    setSelectedevent(true);
+    setSelectedEvent(info.event);
+  };
   return (
     <div>
       <Button
@@ -83,6 +90,18 @@ function TimeSheetById() {
       >
         Add to TimeSheet
       </Button>
+      {selectedEvent && selectedevent && (
+                          <div style={{textAlign:'center', border:'2px solid black', marginLeft:'30%', paddingBottom:'.5rem', width:'20rem'}}>
+                            <p><b>{selectedEvent.title}</b></p>
+                            <p>
+                              Start Time: {selectedEvent.start.toLocaleString()}
+                            </p>
+                            <p>
+                              End Time: {selectedEvent.end.toLocaleString()}
+                            </p>
+                            <Button onClick={()=>setSelectedevent(false)}>Close</Button>
+                          </div>
+                        )}
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridWeek"
@@ -90,21 +109,7 @@ function TimeSheetById() {
         headerToolbar={{
           left: "title",
         }}
-        eventClick={(info) => {
-          var eventObj = info.event;
-
-          alert(
-            "Clicked " +
-              eventObj.title +
-              ".\n" +
-              "Start time " +
-              eventObj.start +
-              ".\n" +
-              "End time " +
-              eventObj.end +
-              ".\n"
-          );
-        }}
+        eventClick={handleEventClick}
       />
       <Modal
         show={show}
