@@ -63,9 +63,20 @@ function Timesheet() {
   const formatEvents = (list) => {
     let arr = [];
     list.map((item) => {
-      let date = new Date(item.Date);
-      date.setDate(date.getDate()+1)
-      let entryDate = date.toISOString();
+      let value1 = new Date(item.Date)
+      let startMonth, startDay;
+      if(value1.getMonth()+1<10) {
+        startMonth=`0${value1.getMonth()+1}`;
+      } else {
+        startMonth = value1.getMonth()+1;
+      }
+      if(value1.getDate()<10) {
+        startDay = `0${value1.getDate()}`;
+      } else {
+        startDay = value1.getDate();
+      }
+      let entryDate = `${value1.getFullYear()}-${startMonth}-${startDay}T`
+      console.log(entryDate);
       arr.push({
         
         title: `${item.Work}`,
