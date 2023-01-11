@@ -4,8 +4,9 @@ import { Button } from "react-bootstrap";
 import ProjectIcon from "../../Images/project-icon.png";
 import Modal from "react-bootstrap/Modal";
 import AddTask from "../Forms/AddTask";
-import { HOST, COUNT_PROJECTS, COUNT_EMPLOYEES } from "../Constants/Constants";
+import { HOST, COUNT_PROJECTS, COUNT_EMPLOYEES, GET_TASKS } from "../Constants/Constants";
 import TestDemo from "../Calendar/Calendar";
+import Tasks from "../Tables/Tasks";
 
 function Dashboard() {
 //   const [show, setShow] = useState(false);
@@ -26,6 +27,16 @@ function Dashboard() {
         .catch((err) => {
           console.log(err);
         });
+      // await axios
+      //   .get(HOST + GET_TASKS, {
+      //     headers: { auth: "Rose " + localStorage.getItem("auth") },
+      //   })
+      //   .then((res) => {
+      //     settasks(res.data.res);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
       await axios
         .get(HOST + COUNT_PROJECTS, {
           headers: { auth: "Rose " + localStorage.getItem("auth") },
@@ -45,56 +56,7 @@ function Dashboard() {
         className="row d-flex justify-content-around body-1"
         style={{ marginTop: "2rem" }}
       >
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img src={ProjectIcon} className="card-img" alt="New Purchases" />
-          <h5 className="card-title">Total Projects</h5>
-          <p style={{ marginTop: "1rem" }}>
-            <b>{projectCount}</b>
-          </p>
-        </div>
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img
-            src={ProjectIcon}
-            className="card-img"
-            alt="Submitted Purchases"
-          />
-          <h5 className="card-title" align="center">
-            Ongoing Projects
-          </h5>
-          <p style={{ marginTop: "1rem" }}>
-            <b>2</b>
-          </p>
-        </div>
-        <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img
-            src={ProjectIcon}
-            className="card-img"
-            alt="Approved Purchases"
-          />
-          <h5 className="card-title">Employees Count</h5>
-          <p style={{ marginTop: "1rem" }}>
-            <b>{employeesCount}</b>
-          </p>
-        </div>
-        {/* <div
-          className="card col-3 d-flex align-items-center"
-          style={{ width: "16rem", padding: "2rem" }}
-        >
-          <img src={ProjectIcon} className="card-img" alt="Closed Purchases" />
-          <h5 className="card-title">Assign Task</h5>
-          <Button style={{ marginTop: "1rem" }} onClick={handleShow}>
-            Assign
-          </Button>
-        </div> */}
+        {<Tasks/>}
       </div>
       <div
         className="container"
@@ -110,12 +72,6 @@ function Dashboard() {
       >
         <div style={{ textAlign: "center" }}>{<TestDemo />}</div>
       </div>
-      {/* <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Assign Task </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{<AddTask />}</Modal.Body>
-      </Modal> */}
     </>
   );
 }

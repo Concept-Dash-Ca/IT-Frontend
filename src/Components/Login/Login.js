@@ -7,26 +7,23 @@ import { HOST, LOGIN } from '../Constants/Constants';
 
 const Login = () => {
   const navigate = useNavigate()
-//   useEffect(() => {
-//     const department = localStorage.getItem('department')
-//     if(department) {
-//       switch (department) {
-//         case 'Admin':
-//           navigate('/admin')
-//           break;
-//         case 'Engineer':
-//           navigate('/engineers')
-//           break;
-//         case 'Manager':
-//           navigate('/manager')
-//           break;
-//         default:
-//           break;
-//       }
-//   }
+  useEffect(() => {
+    const department = localStorage.getItem('department')
+    if(department) {
+      switch (department) {
+        case 'Team':
+          navigate('/dashboard1')
+          break;
+        case 'Manager':
+          navigate('/manager')
+          break;
+        default:
+          break;
+      }
+  }
   
     
-//   }, [])
+  }, [])
   
   
   const context = useContext(AuthenticationContext)
@@ -51,9 +48,6 @@ const Login = () => {
             switch (res.data.user.department) {
               case 'Team':
                 navigate('/dashboard1')
-                break;
-              case 'Engineer':
-                navigate('/engineers')
                 break;
               case 'Manager':
                 navigate('/dashboard')

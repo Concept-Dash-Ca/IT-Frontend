@@ -9,7 +9,6 @@ import Projects from "../Tables/Projects";
 import Timesheet from "../Timesheet/Timesheet";
 import Tasks from "../Tables/Tasks";
 import TimeSheetById from "../Timesheet/TimesheetById";
-// import TimeSheet from "../../TimeSheet/TimeSheet";
 
 function Engineer() {
   const navigate = useNavigate();
@@ -18,6 +17,10 @@ function Engineer() {
   const [showTS, setShowTS] = useState(false);
   const handleCloseTS = () => setShowTS(false);
   const handleShowTS = () => setShowTS(true);
+
+  // const [showTasks, setShowTasks] = useState(false);
+  // const handleCloseTasks = () => setShowTasks(false);
+  // const handleShowTasks = () => setShowTasks(true);
 
   const handleDash = (e) => {
     if (nav === 1) return <Dashboard/>;
@@ -61,15 +64,12 @@ function Engineer() {
                 >
                   <b>Projects</b>
                 </Nav.Link>
-                <Nav.Link
+                {/* <Nav.Link
                   style={{ fontSize: "1rem", marginLeft: "2vw" }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setnav(3);
-                  }}
+                  onClick={handleShowTasks}
                 >
                   <b>Tasks</b>
-                </Nav.Link>
+                </Nav.Link> */}
                 <Nav.Link
                   style={{ fontSize: "1rem", marginLeft: "2vw" }}
                   onClick={handleShowTS}
@@ -107,8 +107,9 @@ function Engineer() {
         <Modal.Body style={{ marginLeft: "0.5rem" }}>
           {<TimeSheetById />}
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
+
+      {/* Tasks Modal */}
     </>
   );
 }
