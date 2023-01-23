@@ -84,34 +84,31 @@ function UpdateProject(props) {
     newForm[name] = value;
     setform(newForm);
   };
+  let projectId = props.row.Project_ID
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    axios
-      .post(
-        HOST + UPDATE_PROJECT,
-        {
-          projectName: form.projectName,
-          dateCreated: form.dateCreated,
-          timeline: form.timeline,
-          projectStage: form.projectStage,
-          projectManager: form.projectManager,
-          teamMembers: DisplayValue?DisplayValue.toString():team,
-          skillsRequired: form.skills,
-          manPower: form.manPower,
-          projectId: props.row.Project_ID
-        },
-        { headers: { auth: "Rose " + localStorage.getItem("auth") } }
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.data.success) {
-          handleShow();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.post(
+      HOST + UPDATE_PROJECT,
+      {
+        projectName: pName,
+        dateCreated: dateCreated,
+        timeline: timeline,
+        projectStage: pStage,
+        projectManager: pManager,
+        teamMembers: DisplayValue ? DisplayValue.toString() : team,
+        skillsRequired: skills,
+        manPower: manPower,
+        projectId: projectId,
+      },
+      { headers: { auth: "Rose " + localStorage.getItem("auth") } }
+    ).then((res) => {
+      console.log(res)
+      if (res.data.success) {
+        handleShow();
+      }
+    }).catch(e => console.log(e))
   };
 
   let teamData = team ? team.split(",") : "";
@@ -245,7 +242,7 @@ function UpdateProject(props) {
           className="submit-btn"
           variant="primary"
           type="submit"
-          onSubmit={handleSubmit}
+          onClick={handleSubmit}
         >
           Submit
         </Button>

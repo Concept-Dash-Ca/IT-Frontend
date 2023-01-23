@@ -22,7 +22,6 @@ function ProjectForm() {
         })
         .then((res) => {
           setemployees(res.data.res);
-          console.log(res.data.res);
         })
         .catch((err) => {
           console.log(err);

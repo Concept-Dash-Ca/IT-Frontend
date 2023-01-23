@@ -26,7 +26,6 @@ const Login = () => {
   }, [])
   
   
-  const context = useContext(AuthenticationContext)
   const [username, setusername] = useState('')
   const [password, setpassword] = useState('')
   
